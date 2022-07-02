@@ -1,0 +1,28 @@
+{
+	"name": "tpo-ad",
+	"version": "1.0.0",
+	"description": "NodeJS + Microsoft SQL Server + Sequelize",
+	"main": "app.js",
+	"scripts": {
+		"start": "nodemon app.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.19.0",
+		"cookie-parser": "^1.4.6",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"fs": "0.0.1-security",
+		"http-errors": "^1.6.3",
+		"jsonwebtoken": "^8.3.0",
+		"morgan": "^1.10.0",
+		"mysql2": "^2.2.5",
+		"nodemailer": "^6.7.2",
+		"nodemon": "^2.0.7",
+		"sequelize": "^6.19.0",
+		"tedious": "^14.4.0"
+	}
+}
