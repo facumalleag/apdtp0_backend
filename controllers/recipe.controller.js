@@ -63,7 +63,7 @@ exports.checkRecipeByName = async function(req,res,next){
     var recipeName = req.params.name 
     try {
         var recipeNameFetched =  await recipeService.checkRecipeByName(recipeName)
-        if (recipeNameFetched === recipeName){
+        if (recipeNameFetched.name === recipeName){
             throw new ExceptionNewUser ("Recipe name already in use", 430);
         }
         console.log(recipeNameFetched)
