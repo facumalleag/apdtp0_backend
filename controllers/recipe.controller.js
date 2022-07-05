@@ -64,7 +64,7 @@ exports.checkRecipeByName = async function(req,res,next){
     try {
         var recipeNameFetched =  await recipeService.checkRecipeByName(recipeName)
         if (recipeNameFetched.name === recipeName){
-            throw new ExceptionNewUser ("Recipe name already in use", 430);
+            return res.status(430).json({status: 430, message: "Recipe name already in use"})
         }
         console.log(recipeNameFetched)
         return res.status(201).json({data:recipeNameFetched, message: "Recipe name approved - Not found on the database"})
