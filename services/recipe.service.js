@@ -72,7 +72,7 @@ exports.getRecipeById = async function (recipeId){
                 as: 'user',
                 attributes: [
                     'id',
-                    'alias'
+                    'name'
                 ]
             },  {
                 model: Status,

@@ -20,7 +20,7 @@ exports.createRecipe = async function (req, res, next) {
         servingPerPerson: req.body.servingPerPerson ? req.body.servingPerPerson : null,
         time: req.body.time ? req.body.time : null,
         isVegan: req.body.isVegan ? req.body.isVegan : null,
-        totalSteps: req.body.totalSteps ? req.body.totalSteps : null,// esto se cambia po run stepsList.length
+        totalSteps: req.body.steps.length ? req.body.steps.length : null,// esto se cambia po run stepsList.length
         totalRating: req.body.totalRating ? req.body.totalRating : null,
 
     }

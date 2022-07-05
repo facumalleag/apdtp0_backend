@@ -2,13 +2,19 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-//var bluebird = require('bluebird');// libreria para manejar y optimizar las Promise de React 
+var bluebird = require('bluebird');// libreria para manejar y optimizar las Promise de React 
 //[NO ME SIRVE para Java, capaz si me sirva para cuando sea en React Native]
 var cors = require('cors');
 var indexRouter = require('./routes/index');
-
+const fs = require('fs');
 const http = require('http');
-
+const https = require('https');
+/*
+const options = {
+    pfx: fs.readFileSync('ssl/pfxfile.pfx'),
+    passphrase: 'password'
+};
+*/
 // Setting express
 const app = express();
 
@@ -31,7 +37,7 @@ app.use('/', indexRouter);
 //app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('*', (req, res) => res.status(200).send({
-	message: 'Bienvenidos, estás en la Web Services de API 2021 2C',
+	message: 'Bienvenidos, estás en la Web Services de Cook',
 }));
 
 app.use(function (req, res, next) {
@@ -58,8 +64,11 @@ app.use(function (req, res, next) {
 
 const port = parseInt(process.env.PORT, 10) || 8000;
 app.set('port', port);
-
 const server = http.createServer(app);
-server.listen(port);
+server.listen(port, () => console.log("HTTP listening on port "+ port));
+
+//const httpsServer = https.createServer(options, app);
+//const portHttps = process.env.PORT || 8443;
+//httpsServer.listen(portHttps, () => console.log("HTTPS listening on port "+ portHttps))
 
 module.exports = app;

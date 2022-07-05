@@ -10,6 +10,7 @@ exports.login = async function (req, res, next) {
         email: req.body.email ? req.body.email : null,
         password: req.body.password ? req.body.password : null
     }
+    console.log("user",user)
     try {
         if(user.password === null || user.email ===null){
             throw new ExceptionNewUser ("Invalid input - Incomplete Data", 405);

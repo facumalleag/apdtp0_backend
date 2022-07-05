@@ -14,6 +14,9 @@ const initializeController = require('../controllers/initialize')
 const ingredientsInRecipeController = require('../controllers/ingredientsInRecipe.controller')
 const ratingsController = require('../controllers/ratings.controller')
 const favoriteController = require('../controllers/favorites.controller')
+const photoController = require('../controllers/photo.controller')
+const multimediaController = require('../controllers/multimedia.controller')
+const uploadController = require('../controllers/upload.controller');
 
 router.get('/test', function(req, res, next) {
     res.send('Llegaste a la ruta de  api/user.routes');
@@ -81,6 +84,17 @@ router.post('/favorites/create', favoriteController.createFavorite)
 router.get('/favorites/listBy/userId/:id', favoriteController.listFavoritesByUserId)
 router.put('/favorites/update', favoriteController.updateFavorite)
 router.delete('/favorites/delete/:id', favoriteController.deleteFavorite)
+
+router.post('/uploadImg',uploadController.uploadFilesImgUser);
+
+router.post('/photo/create', photoController.guardarImagenRecipe)
+router.get('/photo/getImagenesBy/RecipeId/:id', photoController.getImagenByRecipeId)
+router.delete('/photo/deletePhotoaBy/photoId/:id', photoController.destroyPhotoById)
+
+
+router.post('/multimedia/create', multimediaController.guardarMultimediaStep)
+router.get('/multimedia/getMultimediaBy/StepId/:id', multimediaController.getMultimediaByStepId)
+router.delete('/multimedia/deleteMultimediaBy/stepId/:id', multimediaController.destroyMultimediaByStepId)
 
 
 module.exports = router;

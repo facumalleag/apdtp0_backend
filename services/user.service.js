@@ -91,13 +91,13 @@ exports.halfRegister = async function (user) {
 
 exports.login = async function (user) {
     try {
-        console.log("login:",user)
+      
         var _details = await Users.findOne({
             where: {
                 email: user.email
 			}
         });
-
+       
         var passwordIsValid = bcrypt.compareSync(user.password, _details.password);
         if (!passwordIsValid) throw Error("Invalid username/password")
         var token = jwt.sign({

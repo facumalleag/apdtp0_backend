@@ -38,7 +38,7 @@ exports.initialize = async function (req, res, next) {
     var ingredient1 = {description: "Papa"}
     var ingredient2 = {description: "Sal"}
     var ingredient3 = {description: "Pimienta"}
-    var ingredient3 = {description: "huevo"}
+    var ingredient4 = {description: "huevo"}
     //=============================================================
     var measurement1 = {description:"gramo"}
     var measurement2 = {description:"onza"}
@@ -165,6 +165,7 @@ exports.initialize = async function (req, res, next) {
         var createdIngredient1 = await ingredientService.createIngredient(ingredient1)
         var createdIngredient2 = await ingredientService.createIngredient(ingredient2)
         var createdIngredient3 = await ingredientService.createIngredient(ingredient3) 
+        var createdIngredient5 = await ingredientService.createIngredient(ingredient4) 
         //============================================================= 
         var createdMeasurement1 = await measurementService.createMeasurement(measurement1)
         var createdMeasurement2 = await measurementService.createMeasurement(measurement2)
@@ -212,131 +213,3 @@ exports.initialize = async function (req, res, next) {
         return res.status(stt).json({status: stt, message: msg})
     }
 }
-
-// exports.createUser = async function (req, res, next) {
-//     console.log("llegue al controller",req.body)
-//     var stt =""
-//     let msg = ""
-//     var user = {
-//         name: "Chon Snow",
-//         alias: "Chony",
-//         email: "js@hotmail.com",
-//         password: "123456",
-//         isActive: 1,  
-//     }
-//     try {
-//         var createdUser = await UserService.createUser(user)
-//         return res.status(201).json({data:createdUser, message: "Succesfully Created User"})
-//     } catch (e) {
-//         console.log(e)
-//         stt = e.stt ? e.stt : 400
-//         msg = e.msg ? e.msg :"User Creation was Unsuccesfull"
-//         return res.status(stt).json({status: stt, message: msg})
-//     }
-// }
-// exports.createCategory = async function (req, res, next) {
-//     console.log("llegue al controller",req.params)
-//     var stt =""
-//     let msg = ""
-//     var category1 = {description: "pure"}
-//     var category2 = {description: "postre"}
-//     var category3 = {description: "grill"}
-    
-//     try {
-
-//         var createdCategory1 = await categoryService.createCategory(category1)
-//         var createdCategory2 = await categoryService.createCategory(category2)
-//         var createdCategory3 = await categoryService.createCategory(category3)
-//         return res.status(201).json({data:{createdCategory1,createdCategory2,createdCategory3}, message: "Succesfully Created category"})
-//     } catch (e) {
-//         console.log(e)
-//         stt = e.stt ? e.stt : 400
-//         msg = e.msg ? e.msg :"Category Creation was Unsuccesfull"
-//         return res.status(stt).json({status: stt, message: msg})
-//     }
-// }
-
-// exports.createDifficulty = async function (req, res, next) {
-//     console.log("llegue al controller",req.params)
-//     var stt =""
-//     let msg = ""
-//     var difficulty1 = {description: "facil"}
-//     var difficulty2 = {description: "medio"}
-//     var difficulty3 = {description: "dificil"}
-
-//     try {
-
-//         var createdDifficulty1 = await difficultyService.createDifficulty(difficulty1)
-//         var createdDifficulty2 = await difficultyService.createDifficulty(difficulty2)
-//         var createdDifficulty3 = await difficultyService.createDifficulty(difficulty3)
-//         return res.status(201).json({data:{createdDifficulty1,createdDifficulty2,createdDifficulty3}, message: "Succesfully Created difficulty"})
-//     } catch (e) {
-//         console.log(e)
-//         stt = e.stt ? e.stt : 400
-//         msg = e.msg ? e.msg :"difficulty Creation was Unsuccesfull"
-//         return res.status(stt).json({status: stt, message: msg})
-//     }
-// }
-
-// exports.createIngredient = async function (req, res, next) {
-//     console.log("llegue al controller",req.params)
-//     var stt =""
-//     let msg = ""
-//     var ingredient1 = {description: "Papa"}
-//     var ingredient2 = {description: "Sal"}
-//     var ingredient3 = {description: "Pimienta"}
-
-//     try {
-//         var createdIngredient1 = await ingredientService.createIngredient(ingredient1)
-//         var createdIngredient2 = await ingredientService.createIngredient(ingredient2)
-//         var createdIngredient3 = await ingredientService.createIngredient(ingredient3)
-//         return res.status(201).json({data:{createdIngredient1,createdIngredient2,createdIngredient3}, message: "Succesfully Created ingredient"})
-//     } catch (e) {
-//         console.log(e)
-//         stt = e.stt ? e.stt : 400
-//         msg = e.msg ? e.msg :"ingredient Creation was Unsuccesfull"
-//         return res.status(stt).json({status: stt, message: msg})
-//     }
-// }
-
-// exports.createMeasurement = async function (req, res, next) {
-//     console.log("llegue al controller",req.params)
-//     var stt =""
-//     let msg = ""
-//     var measurement1 = {description:"gramo"}
-//     var measurement2 = {description:"onza"}
-//     var measurement3 = {description:"litro"}
-//     try {
-//         var createdMeasurement1 = await measurementService.createMeasurement(measurement1)
-//         var createdMeasurement2 = await measurementService.createMeasurement(measurement2)
-//         var createdMeasurement3 = await measurementService.createMeasurement(measurement3)
-//         return res.status(201).json({data:{createdMeasurement1,createdMeasurement2,createdMeasurement3}, message: "Succesfully Created Measurement"})
-//     } catch (e) {
-//         console.log(e)
-//         stt = e.stt ? e.stt : 400
-//         msg = e.msg ? e.msg :"measurement Creation was Unsuccesfull"
-//         return res.status(stt).json({status: stt, message: msg})
-//     }
-// }
-
-// exports.createStatus = async function (req, res, next) {
-//     console.log("llegue al controller",req.params)
-//     var stt =""
-//     let msg = ""
-//     var status1 = {description: "In Progress"}
-//     var status2 = {description: "Approved"}
-//     var status3 = {description: "Rejected"}
-//     var status4 = {description: "Cacnelled"}
-//     try {
-//         var createdStatus1 = await statusService.createStatus(status1)
-//         var createdStatus2 = await statusService.createStatus(status2)
-//         var createdStatus3 = await statusService.createStatus(status3)
-//         var createdStatus4 = await statusService.createStatus(status4)
-//         return res.status(201).json({data:{createdStatus1,createdStatus2,createdStatus3,createdStatus4}, message: "Succesfully Created status"})
-//     } catch (e) {
-//         console.log(e)
-//         stt = e.stt ? e.stt : 400
-//         msg = e.msg ? e.msg :"status Creation was Unsuccesfull"
-//         return res.status(stt).json({status: stt, message: msg})
-//     }
-// }
