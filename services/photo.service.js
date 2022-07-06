@@ -79,11 +79,8 @@ async function savedRecipeImg (newRecipeImg){
 exports.createRecipeImg = async function (recipeImg) {
     
     //subir imagen a cloudinary
-    console.log("acaaasdsdsdsd",recipeImg.nombreImagen)
-    console.log("recipeImg",recipeImg.nombreImagen.split('.').pop())
     let urlImg;
     let imagen = process.env.UPLOAD_DIR + recipeImg.nombreImagen;
-    console.log("imagen111111111",process.env.UPLOAD_DIR + recipeImg.nombreImagen)
     if(recipeImg.nombreImagen.split('.').pop() ==="mp4"){
 
         cloudinary.uploader.upload(imagen,{ resource_type: "video"}, function(error,result) { 

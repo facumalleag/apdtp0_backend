@@ -157,10 +157,10 @@ exports.uploadFilesImgUser = async function (req, res, next) {
 					const fileName = encodeURIComponent(file.originalFilename.replace(/&. *;+/g, '-'))
 					myUploadedFiles.push(fileName)
 					try {
-						await fs.renameAsync(file.path, join(uploadsFolder, fileName))
+						await fs.renameAsync(file.filepath, join(uploadsFolder, fileName))
 					} catch (e) {
 						console.log('Error uploading the file')
-						try { await fs.unlinkAsync(file.path) } catch (e) {}
+						try { await fs.unlinkAsync(file.filepath) } catch (e) {}
 						return res.json({ok: false, msg: 'Error uploading the file'})
 					}
 				}
