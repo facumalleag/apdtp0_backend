@@ -41,7 +41,7 @@ exports.createRecipe= async function (recipe) {
 exports.deleteRecipe= async function (recipeId) {
 
     try {
-        var deletedRecipe = await newRecipe.destroy({
+        var deletedRecipe = await Recipes.destroy({
             where:{
                 id: recipeId
             }
@@ -49,7 +49,7 @@ exports.deleteRecipe= async function (recipeId) {
         return true
     } catch (e) {
         console.log(e)    
-        throw Error("Error while Creating Recipe")
+        throw Error("Error while deleting Recipe")
     }
 }
 

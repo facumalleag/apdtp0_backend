@@ -95,7 +95,20 @@ exports.bulkUpdateSteps = async function (stepsList) {
         throw Error("Error while Creating Step")
     }
 }
+exports.deletesteps= async function (recipeId) {
 
+    try {
+        var deletedSteps = await Steps.destroy({
+            where:{
+                idRecipe: recipeId
+            }
+        });
+        return true
+    } catch (e) {
+        console.log(e)    
+        throw Error("Error while deleting Recipe")
+    }
+}
 /**
  * La solucion es un poco mas compleja que eso. Necesito algo como lo de abajo
  *  your best option is to create an array of raw queries using sequelize.query() method and execute them using Promise.all() method.
