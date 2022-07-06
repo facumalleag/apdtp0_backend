@@ -4,6 +4,7 @@ var ingredientsInRecipe = require('../services/ingredientsInRecipes.service');
 var ratingService = require('../services/ratings.service');
 var multimediaService = require('../services/multimedia.service');
 var photoService = require('../services/photo.service');
+var favoriteService = require('../services/favorites.service');
 
 exports.createRecipe = async function (req, res, next) {
     //IMPORTANTE A CORREGIR
@@ -61,10 +62,15 @@ exports.createRecipe = async function (req, res, next) {
 exports.deleteRecipeById = async function (req, res, next){
     var stt =""
     let msg = ""
-    var idRecipe = req.params.id
-    var pp = {id:idRecipe}
+    var idR = req.params.id
+    var mm = {idRecipe:req.params.id}
+    var pp = {id:idR}
+    var pp3 = {photoId:idR}
+    var sf = {recipeId:req.params.id}
+    console.log(pp);
     try {
-        var steps  = await stepsService.listStepsByRecipeId(pp)
+        var steps  = await stepsService.listStepsByRecipeId(mm)
+        var recipeS =  await stepsService.deletesteps(idR)
         for(let i = 0; i < steps.length; i++) {
             let obj = steps[i];
             var ff = {id:obj.id}
@@ -72,11 +78,20 @@ exports.deleteRecipeById = async function (req, res, next){
             multimediaService.destroyStepMultimedia(ff)
    
         }
-        var recipeP = await photoService.destroyRecipePhoto(pp)
-        var recipeS =  await stepsService.deletesteps(idRecipe)
-        var recipeI =  await ingredientsInRecipe.deleteIngredientsInRecipe(idRecipe)
-        var recipeR = await ratingService.deleteRating(idRecipe)
-        var recipeD =  await recipeService.deleteRecipe(idRecipe)
+        var steps  = await stepsService.listStepsByRecipeId(mm)
+        var pots =  await photoService.getImagenesByRecipeId(pp)
+        for(let i = 0; i < pots.length; i++) {
+            let obj = pots[i];
+            var ff = {id:obj.id}
+            console.log(obj.id);
+            photoService.pp44(obj.id)
+   
+        }
+        var recipeP = await photoService.destroyRecipePhotoByRecipeId(idR)
+        var recipeF = await favoriteService.deleteFavorite2(idR)
+        var recipeI =  await ingredientsInRecipe.deleteIngredientsInRecipe(idR)
+        var recipeR = await ratingService.deleteRating(idR)
+        var recipeD =  await recipeService.deleteRecipe(idR)
    
        
         return res.status(201).json({recipesDeleted:true, message: "Recipe deleted "})

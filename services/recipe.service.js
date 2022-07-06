@@ -58,7 +58,8 @@ exports.checkRecipeByName= async function (recipeName) {
         var recipeFiltered = await Recipes.findOne({
 			where: {
 				name: recipeName
-			}
+			},
+            force: true
 		});
         return recipeFiltered
     } catch (e) {

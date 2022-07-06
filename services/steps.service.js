@@ -20,6 +20,7 @@ exports.createSteps = async function (stepIn) {
 }
 
 exports.listStepsByRecipeId = async function (steps) {
+    console.log(steps)
     try {
         var listofSteps = await Steps.findAll({
             where:{

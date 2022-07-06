@@ -120,3 +120,17 @@ exports.deleteFavorite = async function (favoriteId) {
         throw Error("Error while deleting Favorite")
     }
 }
+exports.deleteFavorite2 = async function (recipeId) {
+    try {
+        await Favorite.destroy({
+            where:{
+                idRecipe: recipeId
+            }
+        });
+
+        return true;
+    } catch (e) {
+        console.log(e)    
+        throw Error("Error while deleting Favorite")
+    }
+}
