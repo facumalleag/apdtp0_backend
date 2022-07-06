@@ -55,6 +55,21 @@ exports.createRecipe = async function (req, res, next) {
         return res.status(stt).json({status: stt, message: msg})
     }
 }
+exports.deleteRecipeById = async function (req, res, next){
+    var stt =""
+    let msg = ""
+    var idRecipe = req.params.id 
+    try {
+        var recipeDeleted =  await recipeService.deleteRecipe(idRecipe)
+        return res.status(201).json({data:recipeFetched, message: "Recipe deleted "})
+    } catch (e) {
+        console.log(e)
+        stt = e.stt ? e.stt : 400
+        msg = e.msg ? e.msg :"Recipe deletion was Unsuccesfull"
+
+        return res.status(stt).json({status: stt, message: msg})
+    }
+}
 
 exports.checkRecipeByName = async function(req,res,next){
     console.log("llegue al controller",req.params)
