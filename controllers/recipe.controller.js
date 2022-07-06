@@ -1,6 +1,9 @@
 var recipeService = require('../services/recipe.service');
 var stepsService = require('../services/steps.service');
 var ingredientsInRecipe = require('../services/ingredientsInRecipes.service');
+var ratingService = require('../services/ratings.service');
+var multimediaService = require('../services/multimedia.service');
+var photoService = require('../services/photo.service');
 
 exports.createRecipe = async function (req, res, next) {
     //IMPORTANTE A CORREGIR
@@ -58,10 +61,25 @@ exports.createRecipe = async function (req, res, next) {
 exports.deleteRecipeById = async function (req, res, next){
     var stt =""
     let msg = ""
-    var idRecipe = req.params.id 
+    var idRecipe = req.params.id
+    var pp = {id:idRecipe}
     try {
-        var recipeDeleted =  await recipeService.deleteRecipe(idRecipe)
-        return res.status(201).json({data:recipeFetched, message: "Recipe deleted "})
+        var steps  = await stepsService.listStepsByRecipeId(pp)
+        for(let i = 0; i < steps.length; i++) {
+            let obj = steps[i];
+            var ff = {id:obj.id}
+            console.log(obj.id);
+            multimediaService.destroyStepMultimedia(ff)
+   
+        }
+        var recipeP = await photoService.destroyRecipePhoto(pp)
+        var recipeS =  await stepsService.deletesteps(idRecipe)
+        var recipeI =  await ingredientsInRecipe.deleteIngredientsInRecipe(idRecipe)
+        var recipeR = await ratingService.deleteRating(idRecipe)
+        var recipeD =  await recipeService.deleteRecipe(idRecipe)
+   
+       
+        return res.status(201).json({recipesDeleted:true, message: "Recipe deleted "})
     } catch (e) {
         console.log(e)
         stt = e.stt ? e.stt : 400

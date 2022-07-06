@@ -126,3 +126,17 @@ exports.bulkUpdateIngredientsInRecipe = async function (IngredientsInRecipeList)
         throw Error("Error while Creating Step")
     }
 }
+exports.deleteIngredientsInRecipe= async function (recipeId) {
+
+    try {
+        var deletedIngredientsInRecipe = await IngredientsInRecipe.destroy({
+            where:{
+                idRecipe: recipeId
+            }
+        });
+        return true
+    } catch (e) {
+        console.log(e)    
+        throw Error("Error while deleting Recipe")
+    }
+}

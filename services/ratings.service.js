@@ -73,3 +73,18 @@ exports.updateRating = async function (ratingIn) {
         throw Error("Error while updating rating")
     }
 }
+
+exports.deleteRating= async function (recipeId) {
+
+    try {
+        var deletedRecipe = await Rating.destroy({
+            where:{
+                idRecipe: recipeId
+            }
+        });
+        return true
+    } catch (e) {
+        console.log(e)    
+        throw Error("Error while deleting Recipe")
+    }
+}
