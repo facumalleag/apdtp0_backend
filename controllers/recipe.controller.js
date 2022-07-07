@@ -145,14 +145,7 @@ exports.getRecipeById = async function (req, res, next){
     }
 }
 
-exports.updateRecipe = async function (req,res,next){
-    /**
-     * Antes de continuar mejor ponerse a leer el deocumento del TP completo
-     * 
-     * La actualizacion (segun el TP, seqa reemplazo o edicion) implica borrar la
-     * receta y volver a crear otro registro
-     */
-}
+
 
 exports.listRecipesForPresentation = async function(req,res,next){
     var stt =""
@@ -186,4 +179,40 @@ exports.listRecipeByUserId = async function(req,res,next){
 
         return res.status(stt).json({status: stt, message: msg})
     }
+}
+
+exports.searchRecipes = async function(req,res,next){
+    var stt =""
+    let msg = ""
+    console.log("llegue al controller",req.body)
+    try {
+        var filter1 = {
+            ingredientsList: req.body.ingredientsList,
+            lackOfIngredientsList: req.body.lackOfIngredientsList,  
+        };
+   
+        var order = parseInt(req.body.order);
+        var recipesFetchedWithAndWithoutIngredient =  await recipeService.searchRecipesWithdAndWithoutIngredients(filter1, order)
+        
+        var filter2 = {
+            recipeName: req.body.recipeName,
+            categoryList: req.body.categoryList,
+            userName: req.body.userName,
+            listOfIds: recipesFetchedWithAndWithoutIngredient
+        };
+    
+        var recipesFetched =  await recipeService.searchRecipes(filter2, order)
+        return res.status(201).json({data:recipesFetched, message: "Recipes found"})
+    } catch (e) {
+        console.log(e)
+        stt = e.stt ? e.stt : 400
+        msg = e.msg ? e.msg :"Recipe fetching was Unsuccesfull"
+
+        return res.status(stt).json({status: stt, message: msg})
+    }
+}
+exports.updateRecipe = async function (req,res,next){
+    /**
+        hacer un endpoint recipe change status, para demostrar el estado de la receta
+     */
 }
