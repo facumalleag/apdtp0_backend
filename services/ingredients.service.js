@@ -8,7 +8,7 @@ exports.createIngredient = async function (ingredientIn) {
     })
     try {
         var savedIngredient = await newIngredient.save();
-        return {ingredient:savedIngredient.description};
+        return savedIngredient;
     } catch (e) {
         console.log(e)    
         throw Error("Error while Creating ingredient")
@@ -47,3 +47,17 @@ exports.updateIngredient = async function (ingredientIn) {
         throw Error("Error while updating ingredient")
     }
 }
+    exports.findIngredientByName= async function (ingredientName) {
+        try {
+            var ingredientFiltered = await Ingredient.findOne({
+                where: {
+                    description: ingredientName
+                },
+                force: true
+            });
+            return ingredientFiltered
+        } catch (e) {
+            console.log(e)    
+            throw Error("Error while Find Recipe By Name")
+        }
+    }

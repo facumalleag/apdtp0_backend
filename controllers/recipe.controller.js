@@ -1,6 +1,7 @@
 var recipeService = require('../services/recipe.service');
 var stepsService = require('../services/steps.service');
 var ingredientsInRecipe = require('../services/ingredientsInRecipes.service');
+var ingredients = require('../services/ingredients.service');
 var ratingService = require('../services/ratings.service');
 var multimediaService = require('../services/multimedia.service');
 var photoService = require('../services/photo.service');
@@ -41,13 +42,26 @@ exports.createRecipe = async function (req, res, next) {
             idRecipe: createdRecipe.id,
           }));
         
-        stepsService.bulkCreateSteps(stepsListWithRecipeIdAded)
+        await stepsService.bulkCreateSteps(stepsListWithRecipeIdAded)
+        
+        var ingredientsFiltered = []
+        await ingredientsList.forEach( async function(ingredient){
+            var ingredientFiltered = await ingredients.findIngredientByName(ingredient.nombre)
+            if(ingredientFiltered == null){
+                ingredient.description = ingredient.nombre
+                ingredientFiltered = await ingredients.createIngredient(ingredient)
+            }
+            ingredient.id = ingredientFiltered.id
+            console.log(ingredient);
+            ingredientsFiltered.push(ingredient)
+          });
 
-        var ingredientsListWithRecipeIdAded  = await ingredientsList.map(item => ({
+        var ingredientsListWithRecipeIdAded  = await ingredientsFiltered.map(item => ({
             ...item,
+            idIngredient: item.id,
             idRecipe: createdRecipe.id,
             }));
-        ingredientsInRecipe.bulkCreateIngredientsInRecipe(ingredientsListWithRecipeIdAded)
+        await ingredientsInRecipe.bulkCreateIngredientsInRecipe(ingredientsListWithRecipeIdAded)
 
 
         return res.status(201).json({data:createdRecipe, message: "Succesfully Created Recipe"})
