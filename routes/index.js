@@ -75,6 +75,7 @@ router.get('/recipe/getBy/:id', recipeController.getRecipeById)
 router.get('/recipe/listRecipeForPresentacion', recipeController.listRecipesForPresentation)
 router.get('/recipe/listRecipeBy/userId/:id/order/:order', recipeController.listRecipeByUserId)
 router.delete('/recipe/deleteRecipeBy/recipeId/:id', recipeController.deleteRecipeById)
+router.post('/recipe/search', recipeController.searchRecipes)
 
 router.post('/ratings/create', ratingsController.createRating)
 router.get('/ratings/listBy/recipeId/:id', ratingsController.listRatingsByRecipeId)

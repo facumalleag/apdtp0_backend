@@ -363,6 +363,8 @@ exports.listRecipeByUserId = async function(filterUser,orderAsc){
             //      [{name: {[Op.like]: filterWord}},
             //      {status: 1}]
             //   },
+            
+            //requisito PRONAR EL ORDENAMIENTO POR NOMBRE order: [['createdAt',order],['nombre',ASC]],
             include: [{
                 model: Status,
                 as: 'status',
@@ -386,5 +388,133 @@ exports.listRecipeByUserId = async function(filterUser,orderAsc){
     }catch(e){
         console.log(e)    
         throw Error("Error while fetching recipe")
+    }
+}
+
+exports.searchRecipes  = async function(filter,orderAsc){
+    var order= orderAsc===0? 'ASC':'DESC';
+    var recipeName2 = "%"+filter.recipeName+"%";
+    
+
+    var userName = "%"+filter.userName+"%";
+   
+
+    
+    console.log(filter.categoryList)
+       // where: { VERSION CON EL STATUS APPROBED
+            //      [Op.and]:
+            //      [{name: {[Op.like]: filterWord}},
+            //      {status: 1}]
+            //   },
+            
+            //requisito PROBAR EL ORDENAMIENTO POR NOMBRE order: [['createdAt',order],['nombre',ASC]],
+    try{
+        const recipesFectched = await Recipes.findAll({
+         
+            include: [{
+                model: Category,
+                as: 'category',
+                attributes: [
+                    'id',
+                    'description'
+                ]
+            },{
+                model: User,
+                as: 'user',
+                 where: {[Op.or]:[
+                    {name: {[Op.like]:userName}},
+                    
+                ]},
+                attributes: [
+                    'id',
+                    'name'
+                ]
+            },{
+                model: Status,
+                as: 'status',
+                attributes: [
+                    'id',
+                    'description'
+                ]
+            }],
+            where: {[Op.or]:[
+                        {idCategory:{[Op.or]:  filter.categoryList}},
+                        {[Op.or]:[{name: {[Op.like]:recipeName2}},],},
+                        {id:{[Op.or]: filter.listOfIds.recipessIdss}}
+            ]},
+            order: [['createdAt',order]],
+            attributes: [
+                "id",
+                'name',
+                'description',
+                'time',
+                'totalRating',
+                'totalSteps',
+            ]
+            })
+
+
+            return {recipeFetched:recipesFectched};
+    }catch(e){
+        console.log(e)    
+        throw Error("Error while fetching recipe")
+    }
+}
+
+exports.searchRecipesWithdAndWithoutIngredients = async function(filter,orderAsc){
+    var order= orderAsc===0? 'ASC':'DESC';
+    var recipessIdss = [];
+       // where: { VERSION CON EL STATUS APPROBED
+            //      [Op.and]:
+            //      [{name: {[Op.like]: filterWord}},
+            //      {status: 1}]
+            //   },
+/*
+            where:  {[Op.or]:[
+                { [Op.or]:[
+                    {idIngredient: {[Op.or]:filter.ingredientsList}},
+                    {}
+                ]},
+                {[Op.or]:[
+                    {idIngredient: {[Op.notIn]:lackOfIngredientsList2}},
+                    {}
+                ]},
+            ]}
+    */          
+            //requisito PROBAR EL ORDENAMIENTO POR NOMBRE order: [['createdAt',order],['nombre',ASC]],
+    try{
+        const recipesFectched = await IngredientInRecipe.findAll({
+          
+            where:  {[Op.and]:[
+                {idIngredient: {[Op.or]:filter.ingredientsList}},
+                {idIngredient: {[Op.notIn]:filter.lackOfIngredientsList}},    
+            ]},
+              attributes: [
+                'idRecipe',
+            ],
+            group: 'idRecipe'
+            })
+            console.log(recipesFectched)
+            for(var i in recipesFectched) {
+                var item = recipesFectched[i]; 
+                recipessIdss.push(item.idRecipe)
+            }      
+            return {recipessIdss};
+    }catch(e){
+        console.log(e)    
+        throw Error("Error while fetching recipe")
+    }
+}
+
+async function searchRecipes3(){
+    try {
+        // Saving the Control 
+        var savedRecipeImg = await newRecipeImg.save();
+
+        return savedRecipeImg;
+    } catch (e) {
+        // return a Error message describing the reason 
+    console.log(e)    
+    throw Error("Error while searching recipe - search recipe 3" )
     }
 }
