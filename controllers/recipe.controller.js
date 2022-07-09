@@ -44,26 +44,21 @@ exports.createRecipe = async function (req, res, next) {
         
         await stepsService.bulkCreateSteps(stepsListWithRecipeIdAded)
         
-        var ingredientsFiltered = []
-        await ingredientsList.forEach( async function(ingredient){
-            var ingredientFiltered = await ingredients.findIngredientByName(ingredient.nombre)
-            if(ingredientFiltered == null){
-                ingredient.description = ingredient.nombre
-                ingredientFiltered = await ingredients.createIngredient(ingredient)
-            }
-            ingredient.id = ingredientFiltered.id
-            console.log(ingredient);
-            ingredientsFiltered.push(ingredient)
-          });
 
-        var ingredientsListWithRecipeIdAded  = await ingredientsFiltered.map(item => ({
+        for(var i=0; i < ingredientsList.length; i++){
+            var ingredientCreated = await ingredients.createIngredient(ingredientsList[i])
+            console.log("INGREDIENTE" + ingredientCreated.json)
+            ingredientsList[i].idIngredient = await ingredientCreated.savedIngredient.id
+            await delete ingredientsList[i].id
+        }
+
+        var ingredientsListWithRecipeIdAded  = await ingredientsList.map(item => ({
             ...item,
-            idIngredient: item.id,
             idRecipe: createdRecipe.id,
             }));
-        await ingredientsInRecipe.bulkCreateIngredientsInRecipe(ingredientsListWithRecipeIdAded)
+        var ingredientsInRecipeFetched =  await ingredientsInRecipe.bulkCreateIngredientsInRecipe(ingredientsListWithRecipeIdAded)
 
-
+        console.log(ingredientsInRecipeFetched);
         return res.status(201).json({data:createdRecipe, message: "Succesfully Created Recipe"})
     } catch (e) {
         console.log(e)

@@ -7,8 +7,12 @@ exports.createIngredient = async function (ingredientIn) {
         description:ingredientIn.description
     })
     try {
-        var savedIngredient = await newIngredient.save();
-        return savedIngredient;
+        var savedIngredient = await Ingredient.findOrCreate({
+            where: {
+                description: ingredientIn.description,
+            }
+        });
+        return {savedIngredient : savedIngredient[0]};
     } catch (e) {
         console.log(e)    
         throw Error("Error while Creating ingredient")
